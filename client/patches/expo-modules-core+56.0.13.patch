@@ -1,0 +1,27 @@
+diff --git a/node_modules/expo-modules-core/android/build.gradle b/node_modules/expo-modules-core/android/build.gradle
+index de209ce..18ee2f0 100644
+--- a/node_modules/expo-modules-core/android/build.gradle
++++ b/node_modules/expo-modules-core/android/build.gradle
+@@ -291,13 +291,16 @@ def generateStubPCHTask = tasks.register("generateStubPCH") {
+           def stubHeader = new File(entry.directory, "stub_pch.hxx")
+           stubHeader.text = ""
+ 
+-          def cmd = entry.command
+-            // Replace the forced-include path: `-Xclang -include -Xclang <path>/cmake_pch.hxx`
+-            .replaceAll(/-Xclang -include -Xclang [^\s]+cmake_pch\.hxx(?=\s)/, "-Xclang -include -Xclang ${stubHeader.absolutePath}")
+-            // Replace the source file operand: `<path>/cmake_pch.hxx.cxx`
+-            .replaceAll(/[^\s]+cmake_pch\.hxx\.cxx/, stubHeader.absolutePath)
++          def cmd = entry.command.findAll(/(?:[^\s"]|"[^"]*")+/).collect {
++            it.replace("\"", "")
++          }.collect {
++            if (it.endsWith("cmake_pch.hxx") || it.endsWith("cmake_pch.hxx.cxx")) {
++              return stubHeader.absolutePath
++            }
++            return it
++          }
+ 
+-          def process = new ProcessBuilder(cmd.split(" ").toList())
++          def process = new ProcessBuilder(cmd)
+             .directory(new File(entry.directory))
+             .redirectErrorStream(true)
+             .start()
