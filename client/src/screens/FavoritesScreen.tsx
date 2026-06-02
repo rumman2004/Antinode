@@ -21,6 +21,7 @@ import Toast from 'react-native-toast-message';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { Platform } from 'react-native';
+import { safeDecode } from '../utils/helpers';
 
 interface Props { navigation: NativeStackNavigationProp<any, any>; }
 
@@ -53,7 +54,10 @@ const FavoritesScreen = ({ navigation }: Props) => {
     try {
       const res = await api.get('/files');
       // Just taking top 5 to simulate favorites
-      setFavorites(res.data.data.slice(0, 5));
+      const decodedFiles = res.data.data.slice(0, 5).map((f: any) => ({
+        ...f, originalName: safeDecode(f.originalName)
+      }));
+      setFavorites(decodedFiles);
     } catch (e) {
       Toast.show({ type: 'error', text1: 'Error', text2: 'Failed to load favorites.' });
     } finally {
@@ -174,7 +178,7 @@ const FavoritesScreen = ({ navigation }: Props) => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.parchment }]}>
-      <MainLayout headerHeight={240} headerContent={headerContent}>
+      <MainLayout headerHeight={280} headerContent={headerContent}>
         {loading ? (
           <View style={styles.loaderContainer}>
             <ActivityIndicator size="large" color={colors.amber} />

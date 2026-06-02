@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   mainBtn: {
     width: 60,
     height: 60,
-    borderRadius: 20,
+    borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
     shadowOffset: { width: 0, height: 6 },
@@ -187,8 +187,8 @@ const styles = StyleSheet.create({
     right: 0,
     height: '40%',
     backgroundColor: 'rgba(255,255,255,0.2)',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
   subAction: {
     position: 'absolute',
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   subActionBtn: {
     width: 48,
     height: 48,
-    borderRadius: 16,
+    borderRadius: 24,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,

@@ -29,10 +29,8 @@ const MainLayout = ({
         {/* Subtle grain overlay */}
         <View style={styles.grainOverlay} />
         <SafeAreaView style={styles.safeArea}>{headerContent}</SafeAreaView>
-        {/* Stitched seam curve */}
-        <View style={[styles.curve, { backgroundColor: colors.parchment }]}>
-          <View style={[styles.stitchLine, { borderColor: colors.stitch }]} />
-        </View>
+        {/* Plain curve */}
+        <View style={[styles.curve, { backgroundColor: colors.parchment }]} />
       </View>
 
       {/* Parchment Content Area */}
@@ -65,16 +63,6 @@ const styles = StyleSheet.create({
     height: 40,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 0,
-  },
-  stitchLine: {
-    position: 'absolute',
-    top: 0,
-    left: 16,
-    right: 16,
-    height: 0,
-    borderTopWidth: 2,
-    borderStyle: 'dashed',
-    opacity: 0.4,
   },
   bottomSection: {
     flex: 1,

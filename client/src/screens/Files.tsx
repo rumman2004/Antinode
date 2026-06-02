@@ -26,6 +26,7 @@ import Toast from 'react-native-toast-message';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { Platform } from 'react-native';
+import { safeDecode } from '../utils/helpers';
 
 type RootStackParamList = { Dashboard: { folderId?: string; folderName?: string }; };
 type DashboardScreenRouteProp = RouteProp<RootStackParamList, 'Dashboard'>;
@@ -69,7 +70,10 @@ const DashboardScreen = ({ navigation, route }: Props) => {
         getFolders(folderId), api.get(folderId ? `/files?folderId=${folderId}` : '/files'),
       ]);
       setFolders(foldersRes.data.data);
-      setFiles(filesRes.data.data);
+      const decodedFiles = filesRes.data.data.map((f: any) => ({
+        ...f, originalName: safeDecode(f.originalName)
+      }));
+      setFiles(decodedFiles);
     } catch (e) {
       Toast.show({ type: 'error', text1: 'Error', text2: 'Failed to load folder contents.' });
     } finally {
@@ -245,7 +249,7 @@ const DashboardScreen = ({ navigation, route }: Props) => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.parchment }]}>
-      <MainLayout headerHeight={190} headerContent={headerContent}>
+      <MainLayout headerHeight={230} headerContent={headerContent}>
         {loading ? (
           <View style={styles.loaderContainer}>
             <ActivityIndicator size="large" color={colors.amber} />

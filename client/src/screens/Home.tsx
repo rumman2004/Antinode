@@ -27,6 +27,7 @@ import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Platform } from 'react-native';
+import { safeDecode } from '../utils/helpers';
 
 interface Props { navigation: NativeStackNavigationProp<any, any>; }
 
@@ -67,7 +68,10 @@ const HomeScreen = ({ navigation }: Props) => {
         getFolders(null), api.get('/files'), getUserStats(),
       ]);
       setFolders(foldersRes.data.data);
-      setFiles(filesRes.data.data.slice(0, 10));
+      const decodedFiles = filesRes.data.data.slice(0, 10).map((f: any) => ({
+        ...f, originalName: safeDecode(f.originalName)
+      }));
+      setFiles(decodedFiles);
       setStats(statsRes.data.data);
     } catch (e) {
       Toast.show({ type: 'error', text1: 'Sync Error', text2: 'Failed to update data.' });
@@ -310,7 +314,7 @@ const HomeScreen = ({ navigation }: Props) => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.parchment }]}>
-      <MainLayout headerHeight={270} headerContent={headerContent}>
+      <MainLayout headerHeight={310} headerContent={headerContent}>
         {loading ? (
           <View style={styles.loaderContainer}>
             <ActivityIndicator size="large" color={colors.amber} />
