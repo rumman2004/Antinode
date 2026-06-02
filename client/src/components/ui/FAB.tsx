@@ -101,7 +101,7 @@ const FAB = ({ onNewFolder, onUploadFile, isCenter = false }: FABProps) => {
             onPress={() => handleAction(onNewFolder)}
             activeOpacity={0.8}
           >
-            <FolderPlus size={20} color={colors.walnut} />
+            <FolderPlus size={20} color={colors.text} />
           </TouchableOpacity>
           <Text style={[styles.subLabel, { backgroundColor: colors.leather, color: colors.amberGlow }]}>
             New Folder
@@ -124,7 +124,7 @@ const FAB = ({ onNewFolder, onUploadFile, isCenter = false }: FABProps) => {
             onPress={() => handleAction(onUploadFile)}
             activeOpacity={0.8}
           >
-            <Upload size={20} color={colors.walnut} />
+            <Upload size={20} color={colors.text} />
           </TouchableOpacity>
           <Text style={[styles.subLabel, { backgroundColor: colors.leather, color: colors.amberGlow }]}>
             Upload

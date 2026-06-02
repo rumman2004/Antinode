@@ -26,8 +26,8 @@ export interface ThemeColors {
 }
 
 const lightTheme: ThemeColors = {
-  leather: '#3B3B3B', // Dark gray header
-  leatherLight: '#9A8174', // Taupe accents
+  leather: '#232323ff', // Dark gray header
+  leatherLight: '#050206', // Black inner cards for contrast
   leatherDark: '#050206', // Black deep accents
   parchment: '#FFFFFF', // White background
   cream: '#FFFFFF', // White cards
@@ -37,7 +37,7 @@ const lightTheme: ThemeColors = {
   stitch: '#9A8174',
   brass: '#9A8174',
   insetShadow: 'rgba(0,0,0,0.1)',
-  emboss: 'rgba(255,255,255,0.2)',
+  emboss: 'rgba(255, 255, 255, 0.09)',
   dangerRed: '#A52422',
   dangerBg: '#F5D5D5',
   successGreen: '#4A7C59',

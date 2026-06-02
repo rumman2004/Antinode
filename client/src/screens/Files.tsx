@@ -242,7 +242,7 @@ const DashboardScreen = ({ navigation, route }: Props) => {
         <Text style={[styles.headerSubtitle, { color: colors.stitch }]}>
           {folderId ? 'Subfolder' : 'Root'}
         </Text>
-        <Text style={[styles.headerTitle, { color: colors.amber }]} numberOfLines={1}>{folderName}</Text>
+        <Text style={[styles.headerTitle, { color: colors.walnut }]} numberOfLines={1}>{folderName}</Text>
       </View>
     </View>
   );
@@ -306,18 +306,18 @@ const DashboardScreen = ({ navigation, route }: Props) => {
 
       <ActionSheet visible={folderActionSheetVisible} onClose={() => setFolderActionSheetVisible(false)}
         title={selectedItem?.name} actions={[
-          { icon: <Edit2 size={18} color={colors.walnut} />, label: 'Rename Folder',
+          { icon: <Edit2 size={18} color={colors.text} />, label: 'Rename Folder',
             onPress: () => { setFolderActionSheetVisible(false); setTimeout(() => setRenameModalVisible(true), 300); } },
           { icon: <Trash2 size={18} color={colors.dangerRed} />, label: 'Delete Folder', onPress: () => handleDeleteFolderConfirm(), danger: true },
         ]} />
 
       <ActionSheet visible={fileActionSheetVisible} onClose={() => setFileActionSheetVisible(false)}
         title={selectedItem?.originalName} actions={[
-          { icon: <Edit2 size={18} color={colors.walnut} />, label: 'Rename File',
+          { icon: <Edit2 size={18} color={colors.text} />, label: 'Rename File',
             onPress: () => { setFileActionSheetVisible(false); setItemType('file'); setTimeout(() => setRenameModalVisible(true), 300); } },
-          { icon: <FolderInput size={18} color={colors.walnut} />, label: 'Move to folder', onPress: () => setMoveModalVisible(true) },
-          { icon: <Database size={18} color={colors.walnut} />, label: 'Download file', onPress: () => handleDownloadFile() },
-          { icon: <Settings size={18} color={colors.walnut} />, label: 'Share link', onPress: () => handleShareFile() },
+          { icon: <FolderInput size={18} color={colors.text} />, label: 'Move to folder', onPress: () => setMoveModalVisible(true) },
+          { icon: <Database size={18} color={colors.text} />, label: 'Download file', onPress: () => handleDownloadFile() },
+          { icon: <Settings size={18} color={colors.text} />, label: 'Share link', onPress: () => handleShareFile() },
           { icon: <Trash2 size={18} color={colors.dangerRed} />, label: 'Delete file', onPress: () => handleDeleteFileConfirm(), danger: true },
         ]} />
 

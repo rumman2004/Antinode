@@ -58,7 +58,7 @@ const ProfileScreen = () => {
       <View style={styles.avatarWrapper}>
         <Avatar name={`${user?.firstName} ${user?.lastName}`} size="lg" showGlow />
       </View>
-      <Text style={[styles.userName, { color: colors.amber }]}>
+      <Text style={[styles.userName, { color: colors.walnut }]}>
         {user?.firstName} {user?.lastName}
       </Text>
       <Text style={[styles.userEmail, { color: colors.stitch }]}>{user?.email}</Text>

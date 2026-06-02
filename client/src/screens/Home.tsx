@@ -268,7 +268,7 @@ const HomeScreen = ({ navigation }: Props) => {
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <View style={[styles.folderIconWrapper, { backgroundColor: colors.amber }]}>
             <View style={styles.iconShine} />
-            <Folder size={28} color={colors.walnut} fill={colors.amber} />
+            <Folder size={28} color={colors.walnut} />
           </View>
           <TouchableOpacity onPress={() => handleFolderLongPress(item)} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
             <MoreVertical size={16} color={colors.brass} />
@@ -289,23 +289,23 @@ const HomeScreen = ({ navigation }: Props) => {
         </TouchableOpacity>
       </View>
 
-      <Text style={[styles.headerTitle, { color: colors.amber }]}>
+      <Text style={[styles.headerTitle, { color: colors.walnut }]}>
         {user?.firstName ? `${user.firstName}'s Space` : 'My Drive'}
       </Text>
 
       <View style={[styles.statsBar, { backgroundColor: colors.leatherLight, borderColor: colors.stitch }]}>
         <View style={styles.statBox}>
-          <Text style={[styles.statLabel, { color: colors.stitch }]}>Folders</Text>
+          <Text style={[styles.statLabel, { color: colors.walnut }]}>Folders</Text>
           <Text style={[styles.statVal, { color: colors.amber }]}>{stats.folders}</Text>
         </View>
         <View style={[styles.statDivider, { backgroundColor: colors.stitch }]} />
         <View style={styles.statBox}>
-          <Text style={[styles.statLabel, { color: colors.stitch }]}>Files</Text>
+          <Text style={[styles.statLabel, { color: colors.walnut }]}>Files</Text>
           <Text style={[styles.statVal, { color: colors.amber }]}>{stats.files}</Text>
         </View>
         <View style={[styles.statDivider, { backgroundColor: colors.stitch }]} />
         <View style={styles.statBox}>
-          <Text style={[styles.statLabel, { color: colors.stitch }]}>Storage</Text>
+          <Text style={[styles.statLabel, { color: colors.walnut }]}>Storage</Text>
           <Text style={[styles.statVal, { color: colors.amber }]}>{formatSize(stats.usedStorage)}</Text>
         </View>
       </View>
@@ -379,18 +379,18 @@ const HomeScreen = ({ navigation }: Props) => {
 
       <ActionSheet visible={folderActionSheetVisible} onClose={() => setFolderActionSheetVisible(false)}
         title={selectedItem?.name} actions={[
-          { icon: <Edit2 size={18} color={colors.walnut} />, label: 'Rename Folder',
+          { icon: <Edit2 size={18} color={colors.text} />, label: 'Rename Folder',
             onPress: () => { setFolderActionSheetVisible(false); setTimeout(() => setRenameModalVisible(true), 300); } },
           { icon: <Trash2 size={18} color={colors.dangerRed} />, label: 'Delete Folder', onPress: () => handleDeleteFolderConfirm(), danger: true },
         ]} />
 
       <ActionSheet visible={fileActionSheetVisible} onClose={() => setFileActionSheetVisible(false)}
         title={selectedItem?.originalName} actions={[
-          { icon: <Edit2 size={18} color={colors.walnut} />, label: 'Rename File',
+          { icon: <Edit2 size={18} color={colors.text} />, label: 'Rename File',
             onPress: () => { setFileActionSheetVisible(false); setItemType('file'); setTimeout(() => setRenameModalVisible(true), 300); } },
-          { icon: <FolderInput size={18} color={colors.walnut} />, label: 'Move to folder', onPress: () => setMoveModalVisible(true) },
-          { icon: <Database size={18} color={colors.walnut} />, label: 'Download file', onPress: () => handleDownloadFile() },
-          { icon: <Settings size={18} color={colors.walnut} />, label: 'Share link', onPress: () => handleShareFile() },
+          { icon: <FolderInput size={18} color={colors.text} />, label: 'Move to folder', onPress: () => setMoveModalVisible(true) },
+          { icon: <Database size={18} color={colors.text} />, label: 'Download file', onPress: () => handleDownloadFile() },
+          { icon: <Settings size={18} color={colors.text} />, label: 'Share link', onPress: () => handleShareFile() },
           { icon: <Trash2 size={18} color={colors.dangerRed} />, label: 'Delete file', onPress: () => handleDeleteFileConfirm(), danger: true },
         ]} />
 

@@ -169,9 +169,9 @@ const FavoritesScreen = ({ navigation }: Props) => {
     <View style={styles.headerContainer}>
       <View style={[styles.headerIconBox, { backgroundColor: colors.amber }]}>
         <View style={styles.iconShine} />
-        <Star size={32} color={colors.walnut} fill={colors.walnut} />
+        <Star size={32} color={colors.text} fill={colors.text} />
       </View>
-      <Text style={[styles.headerTitle, { color: colors.amber }]}>Favorites</Text>
+      <Text style={[styles.headerTitle, { color: colors.walnut }]}>Favorites</Text>
       <Text style={[styles.headerSubtitle, { color: colors.stitch }]}>Your starred files and folders</Text>
     </View>
   );
@@ -225,12 +225,12 @@ const FavoritesScreen = ({ navigation }: Props) => {
 
       <ActionSheet visible={fileActionSheetVisible} onClose={() => setFileActionSheetVisible(false)}
         title={selectedItem?.originalName} actions={[
-          { icon: <Edit2 size={18} color={colors.walnut} />, label: 'Rename File',
+          { icon: <Edit2 size={18} color={colors.text} />, label: 'Rename File',
             onPress: () => { setFileActionSheetVisible(false); setTimeout(() => setRenameModalVisible(true), 300); } },
-          { icon: <FolderInput size={18} color={colors.walnut} />, label: 'Move to folder', onPress: () => setMoveModalVisible(true) },
-          { icon: <Database size={18} color={colors.walnut} />, label: 'Download file', onPress: () => handleDownloadFile() },
-          { icon: <Settings size={18} color={colors.walnut} />, label: 'Share link', onPress: () => handleShareFile() },
-          { icon: <Trash2 size={18} color={colors.dangerRed} />, label: 'Delete file', onPress: () => handleDeleteFileConfirm(), danger: true },
+          { icon: <FolderInput size={18} color={colors.text} />, label: 'Move to folder', onPress: () => setMoveModalVisible(true) },
+          { icon: <Database size={18} color={colors.text} />, label: 'Download file', onPress: () => handleDownloadFile() },
+          { icon: <Settings size={18} color={colors.text} />, label: 'Share link', onPress: () => handleShareFile() },
+          { icon: <Trash2 size={18} color={colors.dangerRed} />, label: 'Remove from Favorites', onPress: () => {}, danger: true },
         ]} />
 
       <ConfirmSheet visible={confirmModalConfig.visible} title={confirmModalConfig.title}

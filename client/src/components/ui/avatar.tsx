@@ -60,16 +60,16 @@ const Avatar = ({ name, size = 'md', showGlow = true }: AvatarProps) => {
             width: dims.inner,
             height: dims.inner,
             borderRadius: dims.borderRadius - 4,
-            backgroundColor: colors.leatherLight,
+            backgroundColor: colors.leather,
           },
         ]}
       >
         {initials ? (
-          <Text style={[styles.initials, { fontSize: dims.fontSize, color: colors.amber }]}>
+          <Text style={[styles.initials, { fontSize: dims.fontSize, color: colors.walnut }]}>
             {initials}
           </Text>
         ) : (
-          <User size={dims.icon} color={colors.amber} />
+          <User size={dims.icon} color={colors.walnut} />
         )}
       </View>
     </View>
