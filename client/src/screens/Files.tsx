@@ -288,7 +288,7 @@ const DashboardScreen = ({ navigation, route }: Props) => {
       <CreateFolderModal visible={renameModalVisible} onClose={() => setRenameModalVisible(false)}
         onConfirm={itemType === 'folder' ? handleRenameFolder : handleRenameFile}
         title={itemType === 'folder' ? 'Rename Folder' : 'Rename File'}
-        initialValue={selectedItem ? (itemType === 'folder' ? selectedItem.name : selectedItem.originalName) : ''} />
+        initialValue={selectedItem ? decodeURIComponent(itemType === 'folder' ? selectedItem.name : selectedItem.originalName) : ''} />
       <UploadFileModal visible={uploadModalVisible} onClose={() => setUploadModalVisible(false)} folderId={folderId}
         onUploadComplete={() => { setUploadModalVisible(false); loadData(true); }} />
       <MoveFileModal visible={moveModalVisible} onClose={() => setMoveModalVisible(false)} onSelect={handleMoveFile} currentFolderId={selectedItem?.folder} />
@@ -321,7 +321,7 @@ const DashboardScreen = ({ navigation, route }: Props) => {
         message={confirmModalConfig.message} danger={confirmModalConfig.danger} confirmText="Delete"
         onClose={() => setConfirmModalConfig(prev => ({ ...prev, visible: false }))} onConfirm={confirmModalConfig.onConfirm} />
 
-      <FAB onNewFolder={() => setFolderModalVisible(true)} onUploadFile={() => setUploadModalVisible(true)} />
+
     </View>
   );
 };

@@ -57,12 +57,11 @@ const CreateFolderModal = ({
       </TouchableWithoutFeedback>
 
       <KeyboardAvoidingView 
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined} 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
         style={styles.keyboardAvoid}
         pointerEvents="box-none"
       >
         <Animated.View style={[styles.sheet, { transform: [{ translateY }], backgroundColor: colors.cream, borderColor: colors.cardBorder }]}>
-          <View style={[styles.handleBar, { backgroundColor: colors.brass }]} />
 
           <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
           <Text style={[styles.subtitle, { color: colors.textMuted }]}>
@@ -117,27 +116,20 @@ const styles = StyleSheet.create({
   },
   keyboardAvoid: {
     position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
   },
   sheet: {
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
+    borderRadius: 28,
+    marginHorizontal: 24,
     paddingHorizontal: 24,
-    paddingTop: 12,
-    paddingBottom: Platform.OS === 'ios' ? 40 : 24,
-    borderTopWidth: 1,
+    paddingTop: 24,
+    paddingBottom: 24,
+    borderWidth: 1,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.12,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
     shadowRadius: 16,
     elevation: 20,
-  },
-  handleBar: {
-    width: 48,
-    height: 5,
-    borderRadius: 3,
-    alignSelf: 'center',
-    marginBottom: 20,
   },
   title: {
     fontSize: 22,

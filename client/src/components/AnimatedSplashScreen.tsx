@@ -83,7 +83,7 @@ const AnimatedSplashScreen = ({ onFinish }: { onFinish: () => void }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999,
     backgroundColor: '#4A3728', // Leather theme color
     justifyContent: 'center',
     alignItems: 'center',

@@ -209,7 +209,7 @@ const FavoritesScreen = ({ navigation }: Props) => {
 
       <CreateFolderModal visible={renameModalVisible} onClose={() => setRenameModalVisible(false)}
         onConfirm={handleRenameFile} title="Rename File"
-        initialValue={selectedItem?.originalName || ''} />
+        initialValue={selectedItem?.originalName ? decodeURIComponent(selectedItem.originalName) : ''} />
       <MoveFileModal visible={moveModalVisible} onClose={() => setMoveModalVisible(false)} onSelect={handleMoveFile} currentFolderId={selectedItem?.folder} />
       <DocumentPreviewModal visible={previewModalVisible} file={selectedItem}
         onClose={() => setPreviewModalVisible(false)} onOpen={() => handleFilePress(selectedItem)}
