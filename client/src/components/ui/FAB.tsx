@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { View, TouchableOpacity, StyleSheet, Animated, Text } from 'react-native';
-import { Plus, FolderPlus, Upload, X } from 'lucide-react-native';
+import { Plus, FolderPlus, Upload } from 'lucide-react-native';
+import { useTheme } from '../../context/ThemeContext';
 
 interface FABProps {
   onNewFolder: () => void;
@@ -9,10 +10,10 @@ interface FABProps {
 }
 
 /**
- * Floating Action Button with animated expand/collapse.
- * Shows sub-actions: "New Folder" and "Upload File".
+ * Skeuomorphic FAB — glossy brass dome with expanding sub-actions.
  */
 const FAB = ({ onNewFolder, onUploadFile, isCenter = false }: FABProps) => {
+  const { colors } = useTheme();
   const [expanded, setExpanded] = useState(false);
   const animation = useRef(new Animated.Value(0)).current;
   const rotation = useRef(new Animated.Value(0)).current;
@@ -96,13 +97,15 @@ const FAB = ({ onNewFolder, onUploadFile, isCenter = false }: FABProps) => {
           ]}
         >
           <TouchableOpacity
-            style={styles.subActionBtn}
+            style={[styles.subActionBtn, { backgroundColor: colors.cream, borderColor: colors.cardBorder }]}
             onPress={() => handleAction(onNewFolder)}
             activeOpacity={0.8}
           >
-            <FolderPlus size={20} color="#0D0D0D" />
+            <FolderPlus size={20} color={colors.walnut} />
           </TouchableOpacity>
-          <Text style={styles.subLabel}>New Folder</Text>
+          <Text style={[styles.subLabel, { backgroundColor: colors.leather, color: colors.amberGlow }]}>
+            New Folder
+          </Text>
         </Animated.View>
 
         {/* Upload File Sub-action */}
@@ -117,23 +120,27 @@ const FAB = ({ onNewFolder, onUploadFile, isCenter = false }: FABProps) => {
           ]}
         >
           <TouchableOpacity
-            style={styles.subActionBtn}
+            style={[styles.subActionBtn, { backgroundColor: colors.cream, borderColor: colors.cardBorder }]}
             onPress={() => handleAction(onUploadFile)}
             activeOpacity={0.8}
           >
-            <Upload size={20} color="#0D0D0D" />
+            <Upload size={20} color={colors.walnut} />
           </TouchableOpacity>
-          <Text style={styles.subLabel}>Upload</Text>
+          <Text style={[styles.subLabel, { backgroundColor: colors.leather, color: colors.amberGlow }]}>
+            Upload
+          </Text>
         </Animated.View>
 
-        {/* Main FAB Button */}
+        {/* Main FAB Button — glossy brass dome */}
         <Animated.View style={{ transform: [{ rotate: rotateZ }] }}>
           <TouchableOpacity
-            style={styles.mainBtn}
+            style={[styles.mainBtn, { backgroundColor: colors.amber, shadowColor: colors.amber }]}
             onPress={toggle}
             activeOpacity={0.85}
           >
-            <Plus size={28} color="#0D0D0D" strokeWidth={2.5} />
+            {/* Glossy shine */}
+            <View style={styles.mainBtnShine} />
+            <Plus size={28} color={colors.walnut} strokeWidth={2.5} />
           </TouchableOpacity>
         </Animated.View>
       </View>
@@ -153,7 +160,7 @@ const styles = StyleSheet.create({
   },
   container: {
     position: 'absolute',
-    bottom: 100, // Lifted above the CurvedTabBar
+    bottom: 100,
     right: 24,
     width: 150,
     height: 250,
@@ -165,14 +172,23 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 20,
-    backgroundColor: '#FFD700',
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#FFD700',
     shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.45,
     shadowRadius: 12,
-    elevation: 8,
+    elevation: 10,
+    overflow: 'hidden',
+  },
+  mainBtnShine: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: '40%',
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   subAction: {
     position: 'absolute',
@@ -185,20 +201,18 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 16,
-    backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
     elevation: 4,
   },
   subLabel: {
     position: 'absolute',
     right: 58,
-    backgroundColor: '#0D0D0D',
-    color: '#FFFFFF',
     fontSize: 12,
     fontWeight: '600',
     paddingHorizontal: 12,

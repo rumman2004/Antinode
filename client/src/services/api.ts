@@ -5,10 +5,7 @@ import { Platform } from 'react-native';
 // For Android emulator, use 10.0.2.2 instead of localhost
 // For iOS simulator, localhost works
 // For physical devices on the same network, use your computer's IP address
-const API_URL =
-  process.env.EXPO_PUBLIC_API_URL || 'http://3.80.192.46/api';
-
-console.log("USING API URL:", API_URL);
+const API_URL = 'http://3.80.192.46/api';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -78,6 +75,10 @@ export const deleteFile = async (fileId: string) => {
 
 export const moveFile = async (fileId: string, folderId: string | null) => {
   return api.patch(`/files/${fileId}/move`, { folderId });
+};
+
+export const renameFile = async (fileId: string, name: string) => {
+  return api.patch(`/files/${fileId}/rename`, { name });
 };
 
 export const getDownloadUrl = async (fileId: string) => {

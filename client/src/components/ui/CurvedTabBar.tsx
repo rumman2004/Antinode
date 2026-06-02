@@ -2,17 +2,17 @@ import React from 'react';
 import { View, TouchableOpacity, StyleSheet, useWindowDimensions, DeviceEventEmitter } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { Plus } from 'lucide-react-native';
 import FAB from './FAB';
+import { useTheme } from '../../context/ThemeContext';
 
 const TAB_BAR_HEIGHT = 70;
 
 const CurvedTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
   const { width } = useWindowDimensions();
-  // SVG path for a bar with a cutout in the middle
+  const { colors } = useTheme();
+
   const getPath = () => {
     const center = width / 2;
-    // Smooth curve cutout
     return `
       M 0 0 
       L ${center - 45} 0
@@ -28,8 +28,11 @@ const CurvedTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => 
   return (
     <View style={styles.container}>
       <Svg width={width} height={TAB_BAR_HEIGHT} style={styles.svg}>
-        <Path d={getPath()} fill="#FFFFFF" />
+        <Path d={getPath()} fill={colors.leather} />
       </Svg>
+
+      {/* Embossed top edge highlight */}
+      <View style={[styles.topHighlight, { backgroundColor: colors.emboss }]} />
 
       <View style={styles.tabContent}>
         {state.routes.map((route, index) => {
@@ -64,8 +67,6 @@ const CurvedTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => 
             }
           };
 
-          const Icon = options.tabBarIcon;
-
           return (
             <TouchableOpacity
               key={route.key}
@@ -74,9 +75,13 @@ const CurvedTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => 
             >
               {options.tabBarIcon && options.tabBarIcon({ 
                 focused: isFocused, 
-                color: isFocused ? '#FF9500' : '#94A3B8', 
+                color: isFocused ? colors.amber : colors.stitch, 
                 size: 26 
               })}
+              {/* Active indicator dot */}
+              {isFocused && (
+                <View style={[styles.activeIndicator, { backgroundColor: colors.amber }]} />
+              )}
             </TouchableOpacity>
           );
         })}
@@ -94,14 +99,22 @@ const styles = StyleSheet.create({
     height: TAB_BAR_HEIGHT,
     backgroundColor: 'transparent',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: -3 },
+    shadowOpacity: 0.15,
     shadowRadius: 10,
-    elevation: 10,
+    elevation: 12,
   },
   svg: {
     position: 'absolute',
     top: 0,
+  },
+  topHighlight: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 1,
+    zIndex: 1,
   },
   tabContent: {
     flex: 1,
@@ -121,19 +134,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  centerButton: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#FF9500',
-    justifyContent: 'center',
-    alignItems: 'center',
-    top: -25, // Lift it up into the notch
-    shadowColor: '#FF9500',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 8,
-    elevation: 8,
+  activeIndicator: {
+    width: 5,
+    height: 5,
+    borderRadius: 3,
+    marginTop: 4,
   },
 });
 

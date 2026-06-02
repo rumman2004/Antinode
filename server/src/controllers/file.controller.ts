@@ -170,6 +170,42 @@ export const moveFile = async (
 };
 
 /**
+ * PATCH /api/files/:id/rename
+ * Rename a file (update its originalName).
+ */
+export const renameFile = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+    const owner = req.userId || "anonymous";
+
+    if (!name || !name.trim()) {
+      res.status(400).json({ success: false, message: "Name is required" });
+      return;
+    }
+
+    const file = await File.findOneAndUpdate(
+      { _id: id, owner },
+      { originalName: name.trim() },
+      { new: true }
+    );
+
+    if (!file) {
+      res.status(404).json({ success: false, message: "File not found" });
+      return;
+    }
+
+    res.json({ success: true, data: file });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * GET /api/files/:id/download
  * Returns a temporary download URL for the file.
  * S3 files get a presigned URL (1hr). Cloudinary files return the stored URL.

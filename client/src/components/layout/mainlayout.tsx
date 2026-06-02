@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { View, StyleSheet, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from '../../context/ThemeContext';
 
 interface MainLayoutProps {
   headerHeight?: number;
@@ -9,28 +10,33 @@ interface MainLayoutProps {
 }
 
 /**
- * Shared layout providing:
- *  – Dark header section (#0D0D0D) with configurable height
- *  – Smooth curved transition to white content area
- *  – SafeAreaView for notch-safe rendering
+ * Skeuomorphic layout with leather header
+ * and stitched seam transition to parchment content.
  */
 const MainLayout = ({
   headerHeight = 280,
   headerContent,
   children,
 }: MainLayoutProps) => {
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#0D0D0D" />
+  const { colors } = useTheme();
 
-      {/* Dark Header */}
-      <View style={[styles.topSection, { height: headerHeight }]}>
+  return (
+    <View style={[styles.container, { backgroundColor: colors.parchment }]}>
+      <StatusBar barStyle={colors.statusBar} backgroundColor={colors.leather} />
+
+      {/* Leather Header */}
+      <View style={[styles.topSection, { height: headerHeight, backgroundColor: colors.leather }]}>
+        {/* Subtle grain overlay */}
+        <View style={styles.grainOverlay} />
         <SafeAreaView style={styles.safeArea}>{headerContent}</SafeAreaView>
-        <View style={styles.curve} />
+        {/* Stitched seam curve */}
+        <View style={[styles.curve, { backgroundColor: colors.parchment }]}>
+          <View style={[styles.stitchLine, { borderColor: colors.stitch }]} />
+        </View>
       </View>
 
-      {/* White Content Area */}
-      <View style={styles.bottomSection}>{children}</View>
+      {/* Parchment Content Area */}
+      <View style={[styles.bottomSection, { backgroundColor: colors.parchment }]}>{children}</View>
     </View>
   );
 };
@@ -38,11 +44,15 @@ const MainLayout = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
   },
   topSection: {
-    backgroundColor: '#0D0D0D',
     position: 'relative',
+    overflow: 'hidden',
+  },
+  grainOverlay: {
+    position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+    opacity: 0.03,
+    backgroundColor: '#FFF',
   },
   safeArea: {
     flex: 1,
@@ -52,14 +62,22 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 50,
-    backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 50,
+    height: 40,
+    borderTopLeftRadius: 40,
     borderTopRightRadius: 0,
+  },
+  stitchLine: {
+    position: 'absolute',
+    top: 0,
+    left: 16,
+    right: 16,
+    height: 0,
+    borderTopWidth: 2,
+    borderStyle: 'dashed',
+    opacity: 0.4,
   },
   bottomSection: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
   },
 });
 

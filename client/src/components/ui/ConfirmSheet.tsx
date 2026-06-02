@@ -9,6 +9,7 @@ import {
   Animated,
   Dimensions,
 } from 'react-native';
+import { useTheme } from '../../context/ThemeContext';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -23,50 +24,24 @@ interface ConfirmSheetProps {
   danger?: boolean;
 }
 
-/**
- * Bottom sheet confirmation modal that slides up from the bottom.
- * Replaces standard Alert boxes for a more modern, premium feel.
- */
 const ConfirmSheet = ({ 
-  visible, 
-  onClose, 
-  onConfirm, 
-  title, 
-  message, 
-  confirmText = 'Confirm', 
-  cancelText = 'Cancel', 
-  danger = false 
+  visible, onClose, onConfirm, title, message, 
+  confirmText = 'Confirm', cancelText = 'Cancel', danger = false 
 }: ConfirmSheetProps) => {
+  const { colors } = useTheme();
   const translateY = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
   const overlayOpacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     if (visible) {
       Animated.parallel([
-        Animated.spring(translateY, {
-          toValue: 0,
-          damping: 20,
-          stiffness: 150,
-          useNativeDriver: true,
-        }),
-        Animated.timing(overlayOpacity, {
-          toValue: 1,
-          duration: 200,
-          useNativeDriver: true,
-        }),
+        Animated.spring(translateY, { toValue: 0, damping: 20, stiffness: 150, useNativeDriver: true }),
+        Animated.timing(overlayOpacity, { toValue: 1, duration: 200, useNativeDriver: true }),
       ]).start();
     } else {
       Animated.parallel([
-        Animated.timing(translateY, {
-          toValue: SCREEN_HEIGHT,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        Animated.timing(overlayOpacity, {
-          toValue: 0,
-          duration: 200,
-          useNativeDriver: true,
-        }),
+        Animated.timing(translateY, { toValue: SCREEN_HEIGHT, duration: 250, useNativeDriver: true }),
+        Animated.timing(overlayOpacity, { toValue: 0, duration: 200, useNativeDriver: true }),
       ]).start();
     }
   }, [visible]);
@@ -79,31 +54,31 @@ const ConfirmSheet = ({
   return (
     <Modal visible={visible} transparent animationType="none" onRequestClose={onClose}>
       <TouchableWithoutFeedback onPress={onClose}>
-        <Animated.View style={[styles.overlay, { opacity: overlayOpacity }]} />
+        <Animated.View style={[styles.overlay, { opacity: overlayOpacity, backgroundColor: colors.overlay }]} />
       </TouchableWithoutFeedback>
 
-      <Animated.View style={[styles.sheet, { transform: [{ translateY }] }]}>
-        {/* Handle bar */}
-        <View style={styles.handleBar} />
+      <Animated.View style={[styles.sheet, { transform: [{ translateY }], backgroundColor: colors.cream, borderColor: colors.cardBorder }]}>
+        <View style={[styles.handleBar, { backgroundColor: colors.brass }]} />
 
-        <Text style={styles.title}>{title}</Text>
-        {message && <Text style={styles.message}>{message}</Text>}
+        <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
+        {message && <Text style={[styles.message, { color: colors.textSecondary }]}>{message}</Text>}
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity 
-            style={[styles.button, styles.cancelButton]} 
+            style={[styles.button, { backgroundColor: colors.parchment, borderColor: colors.cardBorder, borderWidth: 1 }]} 
             activeOpacity={0.7} 
             onPress={onClose}
           >
-            <Text style={styles.cancelText}>{cancelText}</Text>
+            <Text style={[styles.cancelText, { color: colors.text }]}>{cancelText}</Text>
           </TouchableOpacity>
           
           <TouchableOpacity 
-            style={[styles.button, danger ? styles.dangerButton : styles.confirmButton]} 
+            style={[styles.button, { backgroundColor: danger ? colors.dangerRed : colors.amber }]} 
             activeOpacity={0.7} 
             onPress={handleConfirm}
           >
-            <Text style={styles.confirmText}>{confirmText}</Text>
+            <View style={styles.btnHighlight} />
+            <Text style={[styles.confirmText, { color: danger ? '#FFFFFF' : colors.walnut }]}>{confirmText}</Text>
           </TouchableOpacity>
         </View>
       </Animated.View>
@@ -113,30 +88,28 @@ const ConfirmSheet = ({
 
 const styles = StyleSheet.create({
   overlay: {
-    ...StyleSheet.absoluteFill,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
   },
   sheet: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
     paddingHorizontal: 24,
     paddingTop: 12,
     paddingBottom: 40,
+    borderTopWidth: 1,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.12,
     shadowRadius: 16,
     elevation: 20,
   },
   handleBar: {
     width: 48,
     height: 5,
-    backgroundColor: '#E5E5EA',
     borderRadius: 3,
     alignSelf: 'center',
     marginBottom: 20,
@@ -144,13 +117,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: '700',
-    color: '#0D0D0D',
     marginBottom: 8,
     textAlign: 'center',
   },
   message: {
     fontSize: 15,
-    color: '#8E8E93',
     textAlign: 'center',
     marginBottom: 24,
     lineHeight: 22,
@@ -162,28 +133,26 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     paddingVertical: 16,
-    borderRadius: 16,
+    borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
   },
-  cancelButton: {
-    backgroundColor: '#F1F5F9',
-  },
-  confirmButton: {
-    backgroundColor: '#007AFF',
-  },
-  dangerButton: {
-    backgroundColor: '#FF3B30',
+  btnHighlight: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 2,
+    backgroundColor: 'rgba(255,255,255,0.15)',
   },
   cancelText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#0D0D0D',
   },
   confirmText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#FFFFFF',
+    fontWeight: '700',
   },
 });
 
